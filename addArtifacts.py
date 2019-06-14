@@ -133,7 +133,7 @@ def addArtifacts(cfg):
         targetDir = os.path.join(os.getcwd(),cfg['paths']['simImagesPath'])
         ext = 'jpg'
         outEXT = 'jpg'
-        outDir = targetDir+"\\outMess\\"
+        outDir = os.path.join(targetDir,"outMess")
 
         if not os.path.exists(outDir):
             os.makedirs(outDir)
@@ -141,15 +141,15 @@ def addArtifacts(cfg):
 
 
 
-        filePattern = 	targetDir+"\\*." + ext
+        filePattern = 	os.path.join(targetDir,"*." + ext)
         num = 1
         for filename in glob.glob(filePattern):
             num = num+1
             imgcv = cv2.imread(filename)
 
-            sections = filename.split("\\")
-            imName = sections[-1]
-            
+            #sections = filename.split("\\")
+            #imName = sections[-1]
+            imName = os.path.basename(filename)
 
             prePost = imName.split(".")
             noEnd = prePost[0]
@@ -184,8 +184,8 @@ def addArtifacts(cfg):
 
             if im.mode != 'RGB':
                 im = im.convert('RGB')
-
-            im.save(outDir+noEnd+'.'+outEXT)
+            saveName = os.path.join(outDir,noEnd+'.'+outEXT)
+            im.save(saveName)
 
     #script start        
     doForAll(cfg)
